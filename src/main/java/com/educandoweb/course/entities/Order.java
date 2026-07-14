@@ -17,12 +17,12 @@ public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
 
-    private Integer orderStatus;
+    private Long orderStatus;
 
     @ManyToOne // Associação de chave estrangeira
     @JoinColumn(name = "client_id")
@@ -30,7 +30,7 @@ public class Order implements Serializable {
 
     public Order(){}
 
-    public Order(Integer id, Instant moment, OrderStatus orderStatus, User client) {
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.client = client;
         this.id = id;
         this.moment = moment;
@@ -45,11 +45,11 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
