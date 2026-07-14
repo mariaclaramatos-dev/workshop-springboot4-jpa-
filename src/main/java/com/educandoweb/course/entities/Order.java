@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "td_order")
@@ -17,20 +19,23 @@ public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
 
-    private Long orderStatus;
+    private Integer orderStatus;
 
     @ManyToOne // Associação de chave estrangeira
     @JoinColumn(name = "client_id")
     private User client;
+    
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order(){}
 
-    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
+    public Order(Integer id, Instant moment, OrderStatus orderStatus, User client) {
         this.client = client;
         this.id = id;
         this.moment = moment;
@@ -45,11 +50,11 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -69,6 +74,10 @@ public class Order implements Serializable {
 
     public void setMoment(Instant moment) {
         this.moment = moment;
+    }
+
+    public Set<OrderItem> getItems(){
+        return items;
     }
 
     @Override
