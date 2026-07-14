@@ -22,7 +22,10 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    @Transient // Provisório, impede que o jpa execute
+    @ManyToMany
+    @JoinTable(name = "td_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
     public Product(){}
